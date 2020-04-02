@@ -20,7 +20,7 @@ namespace Orleans.CosmosDB.Tests
 {
     public class PrimaryKeyPartitionKeyProvider : IPartitionKeyProvider
     {
-        public ValueTask<string> GetPartitionKey(string grainType, GrainReference grainReference)
+        public ValueTask<string> GetPartitionKey(string grainType, GrainReference grainReference, string storageName)
         {
             if (grainType == typeof(TestCustomPartitionGrain).FullName)
                 return new ValueTask<string>(grainReference.GetPrimaryKey().ToString());

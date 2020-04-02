@@ -5,12 +5,12 @@ namespace Orleans.Persistence.CosmosDB.Options
 {
     public interface IPartitionKeyProvider
     {
-        ValueTask<string> GetPartitionKey(string grainType, GrainReference grainReference);
+        ValueTask<string> GetPartitionKey(string grainType, GrainReference grainReference, string storageName);
     }
 
     internal class DefaultPartitionKeyProvider : IPartitionKeyProvider
     {
-        public ValueTask<string> GetPartitionKey(string grainType, GrainReference grainReference) 
+        public ValueTask<string> GetPartitionKey(string grainType, GrainReference grainReference, string storageName)
         {
             return new ValueTask<string>(grainType);
         }

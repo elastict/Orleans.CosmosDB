@@ -158,7 +158,7 @@ namespace Orleans.Persistence.CosmosDB
                 {
                     grainState.State = Activator.CreateInstance(grainState.State.GetType());
                 }
-                
+
                 grainState.ETag = doc.Resource.ETag;
             }
             catch (CosmosException dce)
@@ -311,7 +311,7 @@ namespace Orleans.Persistence.CosmosDB
                 var response = await ExecuteWithRetries(async () =>
                 {
                     var pk = new PartitionKey(grainType);
-                    
+
                     var query = this._container.GetItemQueryIterator<GrainStateEntity>(
                         new QueryDefinition($"SELECT * FROM c WHERE c.State.{indexedField} = @key").WithParameter("@key", key),
                         requestOptions: new QueryRequestOptions { PartitionKey = pk }
@@ -375,7 +375,7 @@ namespace Orleans.Persistence.CosmosDB
         private string GetKeyString(GrainReference grainReference) => $"{this._serviceId}{KeyStringSeparator}{grainReference.ToKeyString()}";
         private string GetGrainReferenceString(string keyString) => keyString.Substring(keyString.IndexOf(KeyStringSeparator) + KeyStringSeparator.Length);
         private ValueTask<string> BuildPartitionKey(string grainType, GrainReference reference) =>
-            this._partitionKeyProvider.GetPartitionKey(grainType, reference);
+            this._partitionKeyProvider.GetPartitionKey(grainType, reference, this._name);
 
         private static bool IsNumericType(Type o)
         {
